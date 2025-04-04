@@ -140,77 +140,88 @@
 			}
 
 			/* Estilos para el fondo oscuro de la modal */
-.modal {
-	display: none; /* Oculta la modal por defecto */
-	position: fixed;
-	z-index: 1000;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-	background-color: rgba(0, 0, 0, 0.9);
+			.modal {
+				display: none; /* Oculta la modal por defecto */
+				position: fixed;
+				z-index: 1000;
+				left: 0;
+				top: 0;
+				width: 100%;
+				height: 100%;
+				background-color: rgba(0, 0, 0, 0.9);
 
-	display: flex;
-	align-items: center;
-	justify-content: center;
-}
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
 
-/* Contenedor de la modal */
-.modal-content {
-	background-color: #1c1c3c;
-	padding: 16px;
-	border-radius: 8px;
-	position: relative;
-	/* width: 600px; */
-	max-width: 600px;
-	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-	font-family: Arial, Helvetica, sans-serif;
-	overflow-y: auto;
-}
+			/* Contenedor de la modal */
+			.modal-content {
+				background-color: #1c1c3c;
+				padding: 16px;
+				border-radius: 8px;
+				position: relative;
+				/* width: 600px; */
+				max-width: 600px;
+				box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+				font-family: Arial, Helvetica, sans-serif;
+				overflow-y: auto;
+			}
 
-.modal-content ul li {
-	padding: 0px;
-	margin: 10px 10px;
-}
-.modal-content p {
-	font-size: 12px;
-}
+			.modal-content ul li {
+				padding: 0px;
+				margin: 10px 10px;
+			}
+			.modal-content p {
+				font-size: 12px;
+			}
 
-/* Botón de cerrar */
-.close {
-	color: red;
-	font-size: 18px;
-	cursor: pointer;
-	border: none;
-	background: none;
-	font-weight: bold;
-	position: absolute;
-	top: 12px;
-	right: 15px;
-}
+			/* Botón de cerrar */
+			.close {
+				color: red;
+				font-size: 18px;
+				cursor: pointer;
+				border: none;
+				background: none;
+				font-weight: bold;
+				position: absolute;
+				top: 12px;
+				right: 15px;
+			}
 
-.close:hover {
-	color: darkred;
-}
+			.close:hover {
+				color: darkred;
+			}
 
-/* Botón de abrir */
-.open-modal-box{
-	text-align: center;
-	margin: 0 0 10px 0;
-}
-.open-modal {
-	padding: 4px 4px;
-	background: #be00ff;
-	color: white;
-	border: none;
-	cursor: pointer;
-	border-radius: 5px;
-	font-size: 12px;
-}
+			/* Botón de abrir */
+			.open-modal-box{
+				text-align: center;
+				margin: 0 0 10px 0;
+			}
 
-.open-modal:hover {
-	background: #c557ea;
-}
+			.open-modal {
+				padding: 4px 4px;
+				background: #be00ff;
+				color: white;
+				border: none;
+				cursor: pointer;
+				border-radius: 5px;
+				font-size: 12px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				max-width: 170px;
+				margin: 0 auto;
+			}
+
+			.open-modal:hover {
+				background: #c557ea;
+			}
+
+			.open-modal svg{
+				margin: 0 5px;
+			}
+
 		</style>
 	</head>
 	<body>
@@ -584,12 +595,11 @@
 					<li>
 						<p>
 							Ir al excel de armado vehículo o moto y en la Hoja1, <br> posicionar en la celda B6 y pegar 
-
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								width="100"
 								height="28"
-								viewBox="0 0 160 60"
+								viewBox="30 0 140 60"
 							>
 								<!-- Tecla CTRL -->
 								<rect
