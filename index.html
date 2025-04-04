@@ -200,7 +200,7 @@
 			}
 
 			.open-modal {
-				padding: 4px 4px;
+				padding: 2px 4px;
 				background: #be00ff;
 				color: white;
 				border: none;
@@ -463,7 +463,7 @@
 						<li>Marca:</li>
 						<li>Año:</li>
 						<li>Motor Nro:</li>
-						<li>Chasis Nro:</li>
+						<li id="chasis-cuadro">Chasis Nro:</li>
 						<!-- <li>Radicación:</li>
 						<li>Titular:</li> -->
 					</ul>
@@ -788,7 +788,11 @@ async function extractText() {
         }
 
         console.log(datos);
-
+		if(datos.tipo === "MOTOCICLETA"){
+			document.getElementById("chasis-cuadro").textContent = "Cuadro Nro:"
+		}else{
+			document.getElementById("chasis-cuadro").textContent = "Chasis Nro:"
+		}
         // Formato para Excel (cada variable en una nueva línea)
         const textoParaCopiar = `${datos.tipo}\n${datos.modelo}\n${datos.marca}\n${datos.anio}\n${datos.motor}\n${datos.chasis}`;
         document.getElementById("outputcopybox").style.justifyContent = "center";
