@@ -17,7 +17,7 @@
                 margin: 0;
                 box-sizing: border-box;
             } */
-            body {
+			body {
 				background-color: #1c1c3c;
 				color: #dfdfdf;
 				display: flex;
@@ -32,13 +32,13 @@
 				border-radius: 10px;
 				box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 				margin-top: 5px;
-                max-width: 600px;
+				max-width: 600px;
 			}
-            .title{
-                text-align: center;
-                margin: 0 0 5px 0;
-            }
-			.soporte{
+			.title {
+				text-align: center;
+				margin: 0 0 5px 0;
+			}
+			.soporte {
 				text-align: center;
 			}
 			.soporte p {
@@ -80,7 +80,6 @@
 				list-style: none;
 				margin: 0 5px 0 0;
 				padding: 0;
-
 			}
 			.outputcopybox li {
 				font-size: 13px;
@@ -99,13 +98,24 @@
 				border-radius: 10px;
 				padding: 5px;
 			}
-            .importante p{
-                color:#dd2025;
-            }
-            .importante ul li{
-                margin-top: 10px;
-                font-size: 14px;
-            }
+			.importante p {
+				color: #dd2025;
+			}
+			.importante ul li {
+				margin-top: 10px;
+				font-size: 14px;
+			}
+
+			.dnrpadescargartitulo {
+				text-decoration: none;
+				color: #dfdfdf;
+				font-size: 12px;
+				margin-top: 10px;
+			}
+
+			.dnrpadescargartitulo:hover {
+				color: #be00ff;
+			}
 		</style>
 	</head>
 	<body>
@@ -210,17 +220,39 @@
 				<p>Si la app no encuentra algún dato, enviar título a:</p>
 				<span>juanpablo.duette@narvaezbid.com.ar</span>
 			</div>
-            <div class="importante" style="display: none" id="importante">
-                <p>IMPORTANTE</p>
-                <ul>
-                    <li>Una vez copiados los datos, ir al excel de armado vehículo o moto y en la Hoja1, posicionar en la celda B6 y despues pegar (CTRL + V)</li>
-                    <li>En Modelo extrae todo, si no necesitan los números y el guión(-) en la extracción final me avisan, por el momento borrenlo manualmente en el excel</li>
-                    <li>Se puede usar para motos pero nunca va a encontrar el nro de chasis porque en el título dice cuadro, por el momento ingresarlo manualmente</li>
-                    <li>App en desarrollo, por ahora <strong>chequear la información manualmente</strong></li>
-                    <li>Por el momento para volver a cero, recargar la pagina</li>
-                </ul>
-            </div>
+			<div class="importante" style="display: none" id="importante">
+				<p>IMPORTANTE</p>
+				<ul>
+					<li>
+						Una vez copiados los datos, ir al excel de armado vehículo o moto y en la
+						Hoja1, posicionar en la celda B6 y despues pegar (CTRL + V)
+					</li>
+					<li>
+						En Modelo extrae todo, si no necesitan los números y el guión(-) en la
+						extracción final me avisan, por el momento borrenlo manualmente en el
+						excel
+					</li>
+					<li>
+						Se puede usar para motos pero nunca va a encontrar el nro de chasis porque
+						en el título dice cuadro, por el momento ingresarlo manualmente
+					</li>
+					<li>
+						App en desarrollo, por ahora
+						<strong>chequear la información manualmente</strong>
+					</li>
+					<li>Por el momento para volver a cero, recargar la pagina</li>
+				</ul>
+			</div>
 		</div>
+		<footer>
+			<a
+				href="https://www2.jus.gov.ar/dnrpa-site/#!/consultarTramite"
+				target="_blank"
+				class="dnrpadescargartitulo"
+			>
+				DNRPA - Ir a descarga de título digital</a
+			>
+		</footer>
 		<script>
 			pdfjsLib.GlobalWorkerOptions.workerSrc =
 				"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
@@ -275,14 +307,14 @@
 							datos[clave] = "No encontrado";
 						}
 					}
-					
+
 					// Formato para Excel (cada variable en una nueva línea)
 					const textoParaCopiar = `${datos.tipo}\n${datos.modelo}\n${datos.marca}\n${datos.anio}\n${datos.motor}\n${datos.chasis}`;
 					document.getElementById("outputcopybox").style.justifyContent = "center";
 					document.getElementById("outputcopy").textContent = textoParaCopiar;
 					document.getElementById("btncopy").style.display = "block";
 					document.getElementById("soporte").style.display = "block";
-                    document.getElementById("importante").style.display = "block";
+					document.getElementById("importante").style.display = "block";
 					document.getElementById("btncopy").onclick = function () {
 						// Copiar al portapapeles
 						navigator.clipboard
@@ -294,7 +326,6 @@
 									fontWeight: "bold",
 									color: "#be00ff",
 								});
-								
 
 								setTimeout(() => {
 									btncopy.textContent = "Copiar";
