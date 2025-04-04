@@ -344,16 +344,8 @@
 						excel
 					</li>
 					<li>
-						Se puede usar para motos pero nunca va a encontrar el nro de chasis porque
-						en el título dice cuadro, por el momento ingresarlo manualmente
-					</li>
-					<li>
 						App en desarrollo, por ahora
 						<strong>chequear la información manualmente</strong>
-					</li>
-					<li>
-						Por el momento para volver a cero, recargar la pagina <br />
-						[Solucionado: Click en el logo Narvaezbid para volver a cero]
 					</li>
 				</ul>
 			</div>
@@ -369,105 +361,104 @@
 		</footer>
 		<script>
 			pdfjsLib.GlobalWorkerOptions.workerSrc =
-				"https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
-			let extractedText = "";
+    "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.worker.min.js";
+let extractedText = "";
 
-			async function extractText() {
-				const fileInput = document.getElementById("fileInput");
-				if (fileInput.files.length === 0) {
-					alert("Por favor, selecciona un archivo PDF.");
-					return;
-				}
+async function extractText() {
+    const fileInput = document.getElementById("fileInput");
+    if (fileInput.files.length === 0) {
+        alert("Por favor, selecciona un archivo PDF.");
+        return;
+    }
 
-				const file = fileInput.files[0];
-				const fileReader = new FileReader();
+    const file = fileInput.files[0];
+    const fileReader = new FileReader();
 
-				fileReader.onload = async function () {
-					const typedArray = new Uint8Array(this.result);
-					const pdf = await pdfjsLib.getDocument(typedArray).promise;
+    fileReader.onload = async function () {
+        const typedArray = new Uint8Array(this.result);
+        const pdf = await pdfjsLib.getDocument(typedArray).promise;
 
-					let textContent = "";
-					for (let i = 1; i <= pdf.numPages; i++) {
-						const page = await pdf.getPage(i);
-						const text = await page.getTextContent();
-						textContent += text.items.map((item) => item.str).join(" ") + "\n";
-					}
+        let textContent = "";
+        for (let i = 1; i <= pdf.numPages; i++) {
+            const page = await pdf.getPage(i);
+            const text = await page.getTextContent();
+            textContent += text.items.map((item) => item.str).join(" ") + "\n";
+        }
 
-					extractedText = textContent;
-					console.log("Texto extraído:", extractedText);
+        extractedText = textContent;
+        console.log("Texto extraído:", extractedText);
 
-					const datos = {};
+        const datos = {};
 
-					// Expresiones regulares ajustadas
-					const regexTipo = /TIPO:\s*\d+-\s*([\w\s-]+?)\s+Mca\.Motor:/i;
-					const regexModelo = /MODELO:\s*(.*?)\s+TIPO:/i;
-					const regexMarca = /MARCA:\s*\d*-\s*([\w\s]+?)\s+MODELO:/i;
-					const regexAnio = /Modelo Año:\s*(\d{4})\s+Fecha de Adquisición:/i;
-					const regexMotor = /Nro\.Motor:\s*([\w*.-]+(?:\s[\w*.-]+)?)\s+Mca\./i;
-					const regexChasis = /Nro\. Chasis:\s*([\w-]+)\s+Fabricación/i;
+        // Expresiones regulares ajustadas
+        const regexTipo = /TIPO:\s*\d+-\s*([\w\s-]+?)\s+Mca\.Motor:/i;
+        const regexModelo = /MODELO:\s*(.*?)\s+TIPO:/i;
+        const regexMarca = /MARCA:\s*\d*-\s*([\w\s]+?)\s+MODELO:/i;
+        const regexAnio = /Modelo Año:\s*(\d{4})\s+Fecha de Adquisición:/i;
+        const regexMotor = /Nro\.Motor:\s*([\w*.-]+(?:\s[\w*.-]+)?)\s+Mca\./i;
+        const regexChasis = /Nro\. Chasis:\s*([\w-]+)\s+Fabricación/i;
+        const regexCuadro = /Nro\. Cuadro:\s*([\w*.-]+)\s+Fabricación/i;
 
-					// Asignar los valores extraídos al objeto
-					datos.tipo = (extractedText.match(regexTipo) || [])[1]?.trim() || "";
-					datos.modelo = (extractedText.match(regexModelo) || [])[1]?.trim() || "";
-					datos.marca = (extractedText.match(regexMarca) || [])[1]?.trim() || "";
-					datos.anio = (extractedText.match(regexAnio) || [])[1]?.trim() || "";
-					datos.motor = (extractedText.match(regexMotor) || [])[1]?.trim() || "";
-					datos.chasis = (extractedText.match(regexChasis) || [])[1]?.trim() || "";
+        // Asignar los valores extraídos al objeto
+        datos.tipo = (extractedText.match(regexTipo) || [])[1]?.trim() || "";
+        datos.modelo = (extractedText.match(regexModelo) || [])[1]?.trim() || "";
+        datos.marca = (extractedText.match(regexMarca) || [])[1]?.trim() || "";
+        datos.anio = (extractedText.match(regexAnio) || [])[1]?.trim() || "";
+        datos.motor = (extractedText.match(regexMotor) || [])[1]?.trim() || "";
+        
+        datos.chasis = (extractedText.match(regexChasis) || [])[1]?.trim() || "";
+        if (!datos.chasis) {
+            datos.chasis = (extractedText.match(regexCuadro) || [])[1]?.trim() || "No encontrado";
+        }
 
-					console.log(datos);
+        console.log(datos);
 
-					for (let clave in datos) {
-						if (datos[clave] === "") {
-							datos[clave] = "No encontrado";
-						}
-					}
+        // Formato para Excel (cada variable en una nueva línea)
+        const textoParaCopiar = `${datos.tipo}\n${datos.modelo}\n${datos.marca}\n${datos.anio}\n${datos.motor}\n${datos.chasis}`;
+        document.getElementById("outputcopybox").style.justifyContent = "center";
+        document.getElementById("outputcopy").textContent = textoParaCopiar;
+        document.getElementById("btncopy").style.display = "block";
+        document.getElementById("soporte").style.display = "block";
+        document.getElementById("importante").style.display = "block";
+        document.getElementById("btncopy").onclick = function () {
+            // Copiar al portapapeles
+            navigator.clipboard
+                .writeText(textoParaCopiar)
+                .then(() => {
+                    console.log("Texto copiado al portapapeles");
+                    btncopy.textContent = "Copiado!";
+                    Object.assign(document.getElementById("outputcopy").style, {
+                        fontWeight: "bold",
+                        color: "#be00ff",
+                    });
 
-					// Formato para Excel (cada variable en una nueva línea)
-					const textoParaCopiar = `${datos.tipo}\n${datos.modelo}\n${datos.marca}\n${datos.anio}\n${datos.motor}\n${datos.chasis}`;
-					document.getElementById("outputcopybox").style.justifyContent = "center";
-					document.getElementById("outputcopy").textContent = textoParaCopiar;
-					document.getElementById("btncopy").style.display = "block";
-					document.getElementById("soporte").style.display = "block";
-					document.getElementById("importante").style.display = "block";
-					document.getElementById("btncopy").onclick = function () {
-						// Copiar al portapapeles
-						navigator.clipboard
-							.writeText(textoParaCopiar)
-							.then(() => {
-								console.log("Texto copiado al portapapeles");
-								btncopy.textContent = "Copiado!";
-								Object.assign(document.getElementById("outputcopy").style, {
-									fontWeight: "bold",
-									color: "#be00ff",
-								});
+                    setTimeout(() => {
+                        btncopy.textContent = "Copiar";
+                        document.getElementById("outputcopy").style.fontWeight = "normal";
+                        document.getElementById("outputcopy").style.color = "#dfdfdf";
+                    }, 1000);
+                })
+                .catch((err) => console.error("Error al copiar el texto: ", err));
+        };
+    };
 
-								setTimeout(() => {
-									btncopy.textContent = "Copiar";
-									document.getElementById("outputcopy").style.fontWeight = "normal";
-									document.getElementById("outputcopy").style.color = "#dfdfdf";
-								}, 1000); // Ocultar el botón después de 2 segundos
-							})
-							.catch((err) => console.error("Error al copiar el texto: ", err));
-					};
-				};
+    fileReader.readAsArrayBuffer(file);
+}
 
-				fileReader.readAsArrayBuffer(file);
-			}
+// Obtener la fecha actual
+document.addEventListener("DOMContentLoaded", function () {
+    const fechadehoy = document.getElementById("fechadehoy");
 
-			// Obtener la fecha actual
-			document.addEventListener("DOMContentLoaded", function () {
-				const fechadehoy = document.getElementById("fechadehoy");
+    const opciones = {
+        weekday: "long",
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+    };
+    const fecha = new Date().toLocaleDateString("es-ES", opciones);
 
-				const opciones = {
-					weekday: "long",
-					day: "numeric",
-					month: "long",
-					year: "numeric",
-				};
-				const fecha = new Date().toLocaleDateString("es-ES", opciones);
-
-				fechadehoy.textContent = fecha.charAt(0).toUpperCase() + fecha.slice(1); // Capitaliza la primera letra
-			});
+    fechadehoy.textContent = fecha.charAt(0).toUpperCase() + fecha.slice(1);
+});
 		</script>
 	</body>
 </html>
