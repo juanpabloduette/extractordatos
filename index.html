@@ -763,6 +763,21 @@ async function extractText() {
             textContent += text.items.map((item) => item.str).join(" ") + "\n";
         }
 
+		// PRUEBA PARA DETECTAR
+
+		// Verificamos si el texto extraído es muy corto o vacío
+        const textoLimpiado = textContent.replace(/\s/g, "");
+        if (textoLimpiado.length < 10) {
+            console.warn("PDF parece ser escaneado, usando OCR...");
+			alert("Este pdf contiene una imagen, no se pueden extraer los datos automáticamente")
+            // extraerConOCR(file);
+			document.getElementById("btn-extraer").textContent = "Listo";
+            return;
+        }
+
+		// FIN PRUEBA PARA DETECTAR
+
+
         extractedText = textContent;
         console.log("Texto extraído:", extractedText);
 
@@ -848,8 +863,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     fechadehoy.textContent = fecha.charAt(0).toUpperCase() + fecha.slice(1);
 
-	// MODAL
-	const modal = document.getElementById("myModal");
+				// MODAL
+				const modal = document.getElementById("myModal");
 				const openBtn = document.querySelector(".open-modal");
 				const closeBtn = document.querySelector(".close");
 
