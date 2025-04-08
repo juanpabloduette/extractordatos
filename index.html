@@ -818,7 +818,9 @@ async function extractText() {
         document.getElementById("soporte").style.display = "block";
         document.getElementById("importante").style.display = "block";
 
-		document.getElementById("btn-extraer").textContent = "Listo";
+		document.getElementById("btn-extraer").innerHTML = `
+  		<a href="https://juanpabloduette.github.io/extractordatos/" style="color: #1c1c3c;">Adjuntar nuevo pdf</a>
+		`;
 		document.getElementById("btn-extraer").style.backgroundColor = "#BE00FF";
 		document.getElementById("btn-extraer").style.color = "#dfdfdf";
 		document.getElementById("btn-extraer").style.cursor = "default";
